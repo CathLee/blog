@@ -2,7 +2,7 @@
  * @Author: CathyLee
  * @Date: 2022-11-14 10:43:29
  * @LastEditors: cathylee 447932704@qq.com
- * @LastEditTime: 2022-11-20 12:11:28
+ * @LastEditTime: 2022-11-20 16:40:02
  * @Description: 收藏夹组件
 -->
 
@@ -16,14 +16,14 @@
             </div>
             <div class="left-middle-part">
                 <label-list
-                    @change-label-index="changeLabelIndex"
                     :current-id="currentId"
-                    :label-list="warblerData"
+                    :label-list="state.warblerData"
+                    :edit-mode="state.editMode"
+                    @change-label-index="changeLabelIndex"
                     @change-label="changeLabel"
                     @add-label="addLabel"
                     @delete-label="deleteLabel"
                     @update-label="updateLabel"
-                    :edit-mode="editMode"
                 ></label-list>
             </div>
             <!-- <div class="left-bottom-part">
@@ -59,15 +59,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-    defineComponent,
-    ref,
-    toRefs,
-    watch,
-    reactive,
-    onUnmounted,
-    computed,
-} from 'vue';
+import { ref, toRefs, watch, reactive, onUnmounted, computed } from 'vue';
 import {
     LabelListProps,
     BookmarkState,
@@ -77,7 +69,7 @@ import {
 // import { emitter } from 'hooks/useMitt';
 import LabelList from 'coms/LabelList/LabelList.vue';
 // import MarkList from 'coms/MarkList/MarkList.vue';
-// import useLabels from './useLabels';
+import useLabels from './useLabels';
 // import useMarks from './useMarks';
 // import createMessage from 'base/Message/index';
 // import ActionBar from 'coms/ActionBar/ActionBar.vue';
@@ -122,7 +114,33 @@ const useState = () => {
         state,
     };
 };
+
+const useLableList = () => {
+    const currentId = ref(0);
+    const changeLabel = (id: number) => {
+        currentId.value = id;
+    };
+    const { addLabel, deleteLabel, updateLabel, changeLabelIndex } =
+        useLabels(state);
+    return {
+        currentId,
+        changeLabelIndex,
+        addLabel,
+        deleteLabel,
+        updateLabel,
+        changeLabel,
+    };
+};
+
 const { state } = useState();
+const {
+    currentId,
+    changeLabel,
+    changeLabelIndex,
+    addLabel,
+    deleteLabel,
+    updateLabel,
+} = useLableList();
 console.log(state);
 </script>
 <style lang="scss" scoped>
