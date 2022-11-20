@@ -70,7 +70,7 @@ import {
 } from 'vue';
 import { LabelListProps, BookmarkState, getMotto } from 'coms/BookMark/index';
 // import { emitter } from 'hooks/useMitt';
-import LabelList from 'coms/LabelList/LabelList.vue';
+// import LabelList from 'coms/LabelList/LabelList.vue';
 // import MarkList from 'coms/MarkList/MarkList.vue';
 // import useLabels from './useLabels';
 // import useMarks from './useMarks';
@@ -79,7 +79,6 @@ import LabelList from 'coms/LabelList/LabelList.vue';
 // import Search from 'coms/Search/Search.vue';
 // import Theme from '../Theme/Theme.vue';
 import localforage from 'localforage';
-import { json } from 'node:stream/consumers';
 // 初始化state
 const useState = () => {
     const state = reactive<BookmarkState>({

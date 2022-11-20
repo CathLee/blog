@@ -1,25 +1,28 @@
 {
     "compilerOptions": {
-        "typeRoots": [
-            "node_modules/@types", // 默认值
-            "src/types"
-        ],
-        "target": "esnext",
-        "useDefineForClassFields": true,
-        "module": "esnext",
-        "moduleResolution": "node",
-        "strict": true,
-        "jsx": "preserve",
-        "sourceMap": true,
-        "resolveJsonModule": true,
-        "esModuleInterop": true,
-        "lib": ["esnext", "dom"],
-        "baseUrl": "./",
-        "paths": {
-            "@": ["src"],
-            "@/*": ["src/*"],
-            "coms/*":["src/components/*"],
-        }
+      "target": "esnext",
+      "module": "esnext",
+      "moduleResolution": "node",
+      "strict": true,
+      "jsx": "preserve",
+      "sourceMap": true,
+      "resolveJsonModule": true,
+      "esModuleInterop": true,
+      "noUnusedParameters": false,
+      "lib": ["esnext", "dom"],
+      "types": ["vite/client"],
+      "baseUrl":".",
+      "paths": {
+        "@/*":["src/*"],
+        "coms/*":["src/components/*"],
+        "assets/*":["src/assets/*"],
+        "router/*":["src/router/*"],
+        "styles/*":["src/styles/*"],
+        "utils/*":["src/utils/*"],
+        "base/*":["src/baseComponents/*"],
+        "hooks/*":["src/hooks/*"],
+      }
     },
     "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
-}
+  }
+  

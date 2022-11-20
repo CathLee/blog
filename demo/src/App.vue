@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import Bookmark from 'coms/BookMark/Bookmark.vue';
+import Bookmark from '@/components/BookMark/BookMark.vue';
 </script>
 <style lang="scss">
 #app {

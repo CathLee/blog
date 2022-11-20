@@ -1,8 +1,8 @@
 <!--
  * @Author: CathyLee
  * @Date: 2022-11-14 10:43:29
- * @LastEditors: CathyLee
- * @LastEditTime: 2022-11-19 14:36:19
+ * @LastEditors: cathylee 447932704@qq.com
+ * @LastEditTime: 2022-11-20 12:11:28
  * @Description: 收藏夹组件
 -->
 
@@ -68,7 +68,12 @@ import {
     onUnmounted,
     computed,
 } from 'vue';
-import { LabelListProps, BookmarkState, getMotto } from 'coms/BookMark/index';
+import {
+    LabelListProps,
+    BookmarkState,
+    getMotto,
+    initData,
+} from 'coms/BookMark/index';
 // import { emitter } from 'hooks/useMitt';
 import LabelList from 'coms/LabelList/LabelList.vue';
 // import MarkList from 'coms/MarkList/MarkList.vue';
@@ -79,8 +84,10 @@ import LabelList from 'coms/LabelList/LabelList.vue';
 // import Search from 'coms/Search/Search.vue';
 // import Theme from '../Theme/Theme.vue';
 import localforage from 'localforage';
-import { json } from 'node:stream/consumers';
-// 初始化state
+/**
+ * @description: 初始化state
+ * @return {*}
+ */
 const useState = () => {
     const state = reactive<BookmarkState>({
         // 整个项目需要的数据
@@ -96,12 +103,27 @@ const useState = () => {
         // 查询数据库  如果存在数据 使用库里的数据  否则使用初始默认数据
         if (val) {
             const res = JSON.parse(val as string) as LabelListProps;
-            state.warblerData = res
-        }else{
+            state.warblerData = res;
+        } else {
             state.warblerData = initData;
         }
     });
+    watch(
+        () => state,
+        () => {
+            localforage.setItem(
+                'WARBLER_DATA',
+                JSON.stringify(state.warblerData),
+            );
+        },
+        { immediate: true, deep: true },
+    );
+    return {
+        state,
+    };
 };
+const { state } = useState();
+console.log(state);
 </script>
 <style lang="scss" scoped>
 .my-book-mark {

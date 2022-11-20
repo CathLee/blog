@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /*
  * @Author: CathyLee
  * @Date: 2022-11-14 11:22:27
@@ -7,7 +8,7 @@
  */
 import { LabelsProps } from 'coms/LabelList/index';
 import data from './data';
-export const initData: unknown = data;
+export const initData: any = data;
 export type LabelListProps = LabelsProps[];
 // 书签的数据类型
 export interface BookmarkState {
