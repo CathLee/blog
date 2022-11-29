@@ -16,7 +16,8 @@
         "localforage": "^1.10.0",
         "pinia": "^2.0.23",
         "vue": "^3.2.41",
-        "mitt": "^2.1.0"
+        "mitt": "^2.1.0",
+        "axios": "^0.21.1"
     },
     "devDependencies": {
         "@types/node": "^18.11.9",
