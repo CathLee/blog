@@ -2,7 +2,7 @@
  * @Author: CathyLee
  * @Date: 2022-11-14 10:43:29
  * @LastEditors: cathylee 447932704@qq.com
- * @LastEditTime: 2022-11-20 16:40:02
+ * @LastEditTime: 2022-11-29 21:19:41
  * @Description: 收藏夹组件
 -->
 
@@ -33,27 +33,30 @@
         <!-- 右侧详情栏 搜索栏 -->
         <div class="right-part">
             <!-- 上方搜索栏部分 -->
-            <!-- <div class="right-top-part">
-                
+            <div class="right-top-part">
                 <Search />
-            </div> -->
+            </div>
             <!-- 下方列表详情部分 -->
-            <!-- <div class="right-middle-part">
+            <div class="right-middle-part">
                 <mark-list
                     :mark-list="markList"
                     @add-mark="addMark"
                     @delete-mark="deleteMark"
                     @update-mark="updateMark"
-                    :edit-mode="editMode"
+                    :edit-mode="state.editMode"
                     @change-mark-index="changeMarkIndex"
                 ></mark-list>
-            </div> -->
-            <!-- <div class="right-bottom-part">
-                <div class="quit-edit-mode" v-if="editMode" @click="editModeFn">
+            </div>
+            <div class="right-bottom-part">
+                <div
+                    class="quit-edit-mode"
+                    v-if="state.editMode"
+                    @click="editModeFn"
+                >
                     退出编辑模式
                 </div>
-                <div class="motto-text">「 {{ motto }} 」</div>
-            </div> -->
+                <div class="motto-text">「 {{ state.motto }} 」</div>
+            </div>
         </div>
     </div>
 </template>
@@ -68,10 +71,10 @@ import {
 } from 'coms/BookMark/index';
 // import { emitter } from 'hooks/useMitt';
 import LabelList from 'coms/LabelList/LabelList.vue';
-// import MarkList from 'coms/MarkList/MarkList.vue';
+import MarkList from 'coms/MarkList/MarkList.vue';
 import useLabels from './useLabels';
-// import useMarks from './useMarks';
-// import createMessage from 'base/Message/index';
+import useMarks from './useMarks';
+import createMessage from '@/baseComponents/Message/index';
 // import ActionBar from 'coms/ActionBar/ActionBar.vue';
 // import Search from 'coms/Search/Search.vue';
 // import Theme from '../Theme/Theme.vue';
@@ -110,11 +113,20 @@ const useState = () => {
         },
         { immediate: true, deep: true },
     );
+    // 退出编辑模式
+    const editModeFn = () => {
+        state.editMode = false;
+        createMessage('已退出编辑模式 !');
+    };
     return {
         state,
+        editModeFn,
     };
 };
-
+/**
+ * @description: 初始化labelList
+ * @return {*}
+ */
 const useLableList = () => {
     const currentId = ref(0);
     const changeLabel = (id: number) => {
@@ -132,7 +144,29 @@ const useLableList = () => {
     };
 };
 
-const { state } = useState();
+/**
+ * @description: 初始化MarkList
+ * @return {*}
+ */
+const useMarkList = () => {
+    // 获取当前标签下的所有书签
+    const markList = computed(
+        () => state.warblerData[currentId.value]?.marks || [],
+    );
+    // 导出useMarks相关内容
+    const { addMark, deleteMark, updateMark, changeMarkIndex } =
+        useMarks(markList);
+    return {
+        markList,
+        addMark,
+        deleteMark,
+        updateMark,
+        changeMarkIndex,
+    };
+};
+
+// created阶段
+const { state, editModeFn } = useState();
 const {
     currentId,
     changeLabel,
@@ -141,7 +175,8 @@ const {
     deleteLabel,
     updateLabel,
 } = useLableList();
-console.log(state);
+const { markList, addMark, deleteMark, updateMark, changeMarkIndex } =
+    useMarkList();
 </script>
 <style lang="scss" scoped>
 .my-book-mark {
